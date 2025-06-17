@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let finalRate = 1.0;     // 倍率分数
     let moneyScore = 0;      // 存钱分数
     let extendScore = 0;     // 继承分数
+    let secretScore = 0;     // 隐藏分数
     let finalScore = 0;      // 最终分数
 
     // 所有输入框和按钮
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tempInputs = document.querySelectorAll('.temp input');
     const moneyInput = document.querySelector('.money input');
     const extendInput = document.querySelector('.extend input');
+    const secretInput = document.querySelector('.secret input');
 
     // 所有按钮
     const addGameScoreBtn = document.getElementById('addScore');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addRateBtn = document.querySelector('.rate .add-button');
     const addMoneyScoreBtn = document.querySelector('.money .add-button');
     const addExtendScoreBtn = document.querySelector('.extend .add-button');
+    const addSecretScoreBtn = document.querySelector('.secret .add-button');
     const showFinalScoreBtn = document.querySelector('.final .add-button');
 
     // 所有显示元素
@@ -35,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rateDisplay = document.querySelector('.rate .score-display');
     const moneyScoreDisplay = document.querySelector('.money .score-display');
     const extendScoreDisplay = document.querySelector('.extend .score-display');
+    const secretScoreDisplay = document.querySelector('.secret .score-display');
     const finalScoreDisplay = document.querySelector('.final .final-score');
     const extraScoreDisplay = document.querySelector('.final .extra-score');
     const baseScoreDisplay = document.querySelector('.final .game-score');
@@ -47,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetTempBtn = document.querySelector('.temp .reset-button');
     const resetMoneyBtn = document.querySelector('.money .reset-button');
     const resetExtendBtn = document.querySelector('.extend .reset-button');
+    const resetSecretBtn = document.querySelector('.secret .reset-button');
     const resetRateBtn = document.querySelector('.rate .reset-button');
     const resetAllBtn = document.querySelector('.final .reset-button');
 
@@ -59,9 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
         rateDisplay.textContent = finalRate;
         moneyScoreDisplay.textContent = moneyScore;
         extendScoreDisplay.textContent = extendScore;
+        secretScoreDisplay.textContent = secretScore;
         
         // 计算额外分数
-        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore;
+        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore;
         extraScoreDisplay.textContent = extraScore;
         baseScoreDisplay.textContent = gameScore;
         finalRateDisplay.textContent = finalRate;
@@ -72,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addGameScoreBtn.addEventListener('click', () => {
         const score = parseInt(gameInput.value);
         if (!isNaN(score) && score >= 0) {
-            gameScore = score;
+            gameScore += score;  // 累加而不是覆盖
             gameInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addObjectScoreBtn.addEventListener('click', () => {
         const count = parseInt(objectInput.value);
         if (!isNaN(count) && count >= 0) {
-            objectScore = count * 5; // 每个藏品5分
+            objectScore += count * 5; // 每个藏品5分
             objectInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
@@ -95,51 +101,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // 紧急作战分数计算
     addEmergencyScoreBtn.addEventListener('click', () => {
         let total = 0;
-        const emergencyInputsData = [];
+        const rates = [10, 10, 15, 25, 40, 50]; // 一二层，三层，四层，五层，六层
         emergencyInputs.forEach((input, index) => {
-            const value = parseInt(input.value) || 0;
-            const layer = index + 1;
-            emergencyInputsData.push({ layer, value });
+            const count = parseInt(input.value) || 0;
+            total += count * rates[index];
             input.value = '';
         });
-        console.log('紧急作战输入数据：', emergencyInputsData);
-        
-        emergencyInputsData.forEach(data => {
-            switch (data.layer) {
-                case 1,2:
-                    total += data.value * 10;
-                    break;
-                case 3:
-                    total += data.value * 15;
-                    break;
-                case 4:
-                    total += data.value * 25;
-                    break;
-                case 5:
-                    total += data.value * 40;
-                    break;
-                case 6:
-                    total += data.value * 50;
-                    break;
-                default:
-                    break;
-            }
-        });
-        emergencyScore = total;
+        emergencyScore += total;  // 累加而不是覆盖
         calculateFinalScore();
         updateAllDisplays();
     });
 
-    // 临时招募分数计算（示例：四星20分，五星50分，六星100分）
+    // 临时招募分数计算
     addTempScoreBtn.addEventListener('click', () => {
         let total = 0;
-        const rates = [20, 50, 100];
+        const rates = [30, 30, 50]; // 四星30分，五星30分，六星50分
         tempInputs.forEach((input, index) => {
             const count = parseInt(input.value) || 0;
             total += count * rates[index];
             input.value = '';
         });
-        tempScore = total;
+        tempScore += total;  // 累加而不是覆盖
         calculateFinalScore();
         updateAllDisplays();
     });
@@ -157,11 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 存钱分数计算（存1块钱10分）
+    // 存钱分数计算
     addMoneyScoreBtn.addEventListener('click', () => {
         const amount = parseInt(moneyInput.value);
         if (!isNaN(amount) && amount >= 0) {
-            moneyScore = amount * 10;
+            moneyScore += amount * 10; // 存1块钱10分
             moneyInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
@@ -172,8 +154,19 @@ document.addEventListener('DOMContentLoaded', () => {
     addExtendScoreBtn.addEventListener('click', () => {
         const score = parseInt(extendInput.value);
         if (!isNaN(score) && score >= 0) {
-            extendScore = score;
+            extendScore += score;  // 累加而不是覆盖
             extendInput.value = '';
+            calculateFinalScore();
+            updateAllDisplays();
+        }
+    });
+
+    // 隐藏分数计算
+    addSecretScoreBtn.addEventListener('click', () => {
+        const amount = parseInt(secretInput.value);
+        if (!isNaN(amount) && amount >= 0) {
+            secretScore += amount * 50; // 每个50分
+            secretInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
         }
@@ -182,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 计算最终分数
     function calculateFinalScore() {
         // 基础分数 = 结算分数 + 额外分数
-        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore;
+        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore;
         // 最终分数 = 基础分数 * 倍率
         finalScore = Math.floor(baseScore * finalRate);
     }
@@ -235,6 +228,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllDisplays();
     });
 
+    // 重置隐藏分数
+    resetSecretBtn.addEventListener('click', () => {
+        secretScore = 0;
+        secretInput.value = '';
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
     // 重置倍率
     resetRateBtn.addEventListener('click', () => {
         finalRate = 1.0;
@@ -252,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         finalRate = 1.0;
         moneyScore = 0;
         extendScore = 0;
+        secretScore = 0;
         finalScore = 0;
 
         // 清空所有输入框
@@ -261,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tempInputs.forEach(input => input.value = '');
         moneyInput.value = '';
         extendInput.value = '';
+        secretInput.value = '';
 
         // 更新显示
         calculateFinalScore();
