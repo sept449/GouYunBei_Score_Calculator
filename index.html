@@ -43,60 +43,6 @@
                 </div>
                 <div class="score-display">0</div>
             </div>
-            <div class="temp">
-                <h3>临时招募分数</h3>
-                <div class="input-group">
-                    <div class="input-row">四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
-                    <div class="input-row">五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
-                    <div class="input-row">六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
-                </div>
-                <div class="button-group">
-                    <button class="add-button">添加临时招募分数</button>
-                    <button class="reset-button">重置</button>
-                </div>
-                <div class="score-display">0</div>
-            </div>
-            <div class="rate">
-                <h3>结算倍率</h3>
-                <div class="button-group">
-                    <button class="add-button">添加结算倍率</button>
-                    <button class="reset-button">重置</button>
-                </div>
-                <div class="score-display">1.0</div>
-            </div>
-        </div>
-        <div class="column-right">
-            <div class="money">
-                <h3>存钱分数</h3>
-                <div class="button-group">
-                    <input type="number" placeholder="请输入存钱数量" min="0" step="1">
-                    <button class="add-button">添加存钱分数</button>
-                    <button class="reset-button">重置</button>
-                </div>
-                <div class="score-display">0</div>
-            </div>
-            <div class="extend">
-                <h3>继承分数</h3>
-                <div class="button-group">
-                    <input type="number" placeholder="请输入继承的分数" min="0" step="1">
-                    <button class="add-button">添加继承分数</button>
-                    <button class="reset-button">重置</button>
-                </div>
-                <div class="score-display">0</div>
-            </div>
-            <div class="secret">
-                <h3>隐藏分数（鸭狗熊鼠）</h3>
-                <div class="button-group">
-                    <input type="number" placeholder="请输入隐藏数量" min="0" step="1">
-                    <button class="add-button">添加隐藏分数</button>
-                    <button class="reset-button">重置</button>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="noMissCheckbox">
-                    <label for="noMissCheckbox">全局无漏</label>
-                </div>
-                <div class="score-display">0</div>
-            </div>
             <div class="ending">
                 <h3>结局分数</h3>
                 <div class="ending-grid">
@@ -166,6 +112,86 @@
                     <button class="reset-button">重置</button>
                 </div>
                 <div class="score-display">0</div>
+            </div>
+        </div>
+        <div class="column-right">
+            <div class="money">
+                <h3>存钱分数</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入存钱数量" min="0" step="1">
+                    <button class="add-button">添加存钱分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="extend">
+                <h3>继承分数</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入继承的分数" min="0" step="1">
+                    <button class="add-button">添加继承分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="secret">
+                <h3>隐藏分数（鸭狗熊鼠）</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入隐藏数量" min="0" step="1">
+                    <button class="add-button">添加隐藏分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="noMissCheckbox">
+                    <label for="noMissCheckbox">全局无漏</label>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="temp">
+                <h3>临时招募分数</h3>
+                <div class="input-group">
+                    <div class="input-row">四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                    <div class="input-row">五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                    <div class="input-row">六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">添加临时招募分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="rate">
+                <h3>结算倍率</h3>
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="difficulty">难度：</label>
+                        <select id="difficulty">
+                            <option value="1.0">N9 (×1.0)</option>
+                            <option value="1.2">N10 (×1.2)</option>
+                            <option value="1.4">N11 (×1.4)</option>
+                            <option value="1.5">N12 (×1.5)</option>
+                            <option value="2.0">N13 (×2.0)</option>
+                            <option value="3.0">N14 (×3.0)</option>
+                            <option value="4.0">N15 (×4.0)</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wishdale">
+                        <label for="wishdale">使用维什戴尔 (×0.5)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="single-ending">
+                        <label for="single-ending">仅完成单结局 (×0.6)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ending1">
+                        <label for="ending1">出现一结局 (×0.7)</label>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">计算倍率</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">1.0</div>
             </div>
         </div>
     </div>

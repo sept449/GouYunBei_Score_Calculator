@@ -75,6 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ending2Confused.disabled = false;
     ending2Scroll.disabled = false;
 
+    // 倍率相关元素
+    const difficultySelect = document.getElementById('difficulty');
+    const wishdaleCheckbox = document.getElementById('wishdale');
+    const singleEndingCheckbox = document.getElementById('single-ending');
+    const ending1Checkbox = document.getElementById('ending1');
+
     // 更新显示函数
     function updateAllDisplays() {
         gameScoreDisplay.textContent = gameScore;
@@ -147,17 +153,28 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllDisplays();
     });
 
-    // 倍率设置（示例：1.0-2.0之间）
+    // 计算倍率
     addRateBtn.addEventListener('click', () => {
-        const rate = prompt('请输入倍率（1.0-2.0）：', '1.0');
-        const numRate = parseFloat(rate);
-        if (!isNaN(numRate) && numRate >= 1.0 && numRate <= 2.0) {
-            finalRate = numRate;
-            calculateFinalScore();
-            updateAllDisplays();
-        } else {
-            alert('请输入有效的倍率！');
+        let rate = parseFloat(difficultySelect.value);
+        console.log('基础倍率:', rate);
+
+        if (wishdaleCheckbox.checked) {
+            rate *= 0.5;
+            console.log('使用维什戴尔: ×0.5');
         }
+        if (singleEndingCheckbox.checked) {
+            rate *= 0.6;
+            console.log('仅完成单结局: ×0.6');
+        }
+        if (ending1Checkbox.checked) {
+            rate *= 0.7;
+            console.log('出现一结局: ×0.7');
+        }
+        console.log('最终倍率:', rate);
+        
+        finalRate = rate;
+        calculateFinalScore();
+        updateAllDisplays();
     });
 
     // 存钱分数计算
@@ -343,6 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 重置倍率
     resetRateBtn.addEventListener('click', () => {
+        difficultySelect.value = '1.0';
+        wishdaleCheckbox.checked = false;
+        singleEndingCheckbox.checked = false;
+        ending1Checkbox.checked = false;
         finalRate = 1.0;
         calculateFinalScore();
         updateAllDisplays();
