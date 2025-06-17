@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalScoreDisplay = document.querySelector('.final .final-score');
     const extraScoreDisplay = document.querySelector('.final .extra-score');
     const baseScoreDisplay = document.querySelector('.final .game-score');
+    const finalRateDisplay = document.querySelector('.final .rate-display');
 
     // 所有重置按钮
     const resetGameBtn = document.querySelector('.jiesuan .reset-button');
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore;
         extraScoreDisplay.textContent = extraScore;
         baseScoreDisplay.textContent = gameScore;
+        finalRateDisplay.textContent = finalRate;
         finalScoreDisplay.textContent = finalScore;
     }
 
@@ -79,24 +81,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 藏品分数计算（示例：每个藏品10分）
+    // 藏品分数计算
     addObjectScoreBtn.addEventListener('click', () => {
         const count = parseInt(objectInput.value);
         if (!isNaN(count) && count >= 0) {
-            objectScore = count * 10;
+            objectScore = count * 5; // 每个藏品5分
             objectInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
         }
     });
 
-    // 紧急作战分数计算（示例：一层5分，二层10分，以此类推）
+    // 紧急作战分数计算
     addEmergencyScoreBtn.addEventListener('click', () => {
         let total = 0;
+        const emergencyInputsData = [];
         emergencyInputs.forEach((input, index) => {
-            const count = parseInt(input.value) || 0;
-            total += count * (5 * (index + 1));
+            const value = parseInt(input.value) || 0;
+            const layer = index + 1;
+            emergencyInputsData.push({ layer, value });
             input.value = '';
+        });
+        console.log('紧急作战输入数据：', emergencyInputsData);
+        
+        emergencyInputsData.forEach(data => {
+            switch (data.layer) {
+                case 1,2:
+                    total += data.value * 10;
+                    break;
+                case 3:
+                    total += data.value * 15;
+                    break;
+                case 4:
+                    total += data.value * 25;
+                    break;
+                case 5:
+                    total += data.value * 40;
+                    break;
+                case 6:
+                    total += data.value * 50;
+                    break;
+                default:
+                    break;
+            }
         });
         emergencyScore = total;
         calculateFinalScore();
@@ -130,11 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 存钱分数计算（示例：每1000分1分）
+    // 存钱分数计算（存1块钱10分）
     addMoneyScoreBtn.addEventListener('click', () => {
         const amount = parseInt(moneyInput.value);
         if (!isNaN(amount) && amount >= 0) {
-            moneyScore = Math.floor(amount / 1000);
+            moneyScore = amount * 10;
             moneyInput.value = '';
             calculateFinalScore();
             updateAllDisplays();

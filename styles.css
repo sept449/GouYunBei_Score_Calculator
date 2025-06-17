@@ -11,21 +11,22 @@ body {
 
 .container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: row;
+    gap: 60px;
     justify-content: center;
     max-width: 1200px;
     width: 100%;
     margin-bottom: 20px;
 }
 
-.column {
+.column-left,
+.column-right {
     display: flex;
     flex-direction: column;
     gap: 20px;
     flex: 1;
     min-width: 300px;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 .final-container {
@@ -52,7 +53,7 @@ input[type="number"] {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    width: 150px;
+    width: 200px;
     margin-right: 10px;
 }
 
@@ -118,7 +119,7 @@ input[type="number"] {
 
 .input-row input {
     margin-left: 10px;
-    width: 150px;
+    width: 40%;
 }
 
 .button-group {
@@ -141,4 +142,4 @@ input[type="number"] {
 
 .reset-button:hover {
     background-color: #d32f2f;
-} 
+}
