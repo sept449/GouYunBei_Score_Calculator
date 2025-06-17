@@ -7,62 +7,98 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="jiesuan">
-        <h3>结算分数</h3>
-        <input type="number" id="scoreInput" placeholder="请输入结算分数" min="0" step="1">
-        <button id="addScore" class="add-button">添加结算分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="object">
-        <h3>藏品分数</h3>
-        <input type="number" placeholder="请输入收藏品数量" min="0" step="1">
-        <button class="add-button">添加藏品分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="emergency">
-        <h3>紧急作战分数</h3>
-        一层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        二层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        三层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        四层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        五层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        六层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">
-        <button class="add-button">添加紧急作战分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="temp">
-        <h3>临时招募分数</h3>
-        四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">
-        五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">
-        六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">
-        <button class="add-button">添加临时招募分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="rate">
-        <h3>结算倍率</h3>
-        <button class="add-button">添加结算倍率</button>
-        <div class="score-display">1.0</div>
-    </div>
-    <div class="money">
-        <h3>存钱分数</h3>
-        <input type="number" placeholder="请输入存钱数量" min="0" step="1">
-        <button class="add-button">添加存钱分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="extend">
-        <h3>继承分数</h3>
-        <input type="number" placeholder="请输入继承的分数" min="0" step="1">
-        <button class="add-button">添加继承分数</button>
-        <div class="score-display">0</div>
-    </div>
-    <div class="final">
-        <h3>最终分数</h3>
-        <div class="score-breakdown">
-            <div>结算分数：<span class="game-score">0</span></div>
-            <div>额外分数：<span class="extra-score">0</span></div>
-            <div>最终分数：<span class="final-score">0</span></div>
+    <div class="container">
+        <div class="column">
+            <div class="jiesuan">
+                <h3>结算分数</h3>
+                <div class="button-group">
+                    <input type="number" id="scoreInput" placeholder="请输入结算分数" min="0" step="1">
+                    <button id="addScore" class="add-button">添加结算分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="object">
+                <h3>藏品分数</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入收藏品数量" min="0" step="1">
+                    <button class="add-button">添加藏品分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="emergency">
+                <h3>紧急作战分数</h3>
+                <div class="input-group">
+                    <div class="input-row">一层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                    <div class="input-row">二层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                    <div class="input-row">三层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                    <div class="input-row">四层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                    <div class="input-row">五层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                    <div class="input-row">六层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1"></div>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">添加紧急作战分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="temp">
+                <h3>临时招募分数</h3>
+                <div class="input-group">
+                    <div class="input-row">四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                    <div class="input-row">五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                    <div class="input-row">六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1"></div>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">添加临时招募分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
         </div>
-        <button class="add-button">计算最终分数</button>
+        <div class="column">
+            <div class="money">
+                <h3>存钱分数</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入存钱数量" min="0" step="1">
+                    <button class="add-button">添加存钱分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="extend">
+                <h3>继承分数</h3>
+                <div class="button-group">
+                    <input type="number" placeholder="请输入继承的分数" min="0" step="1">
+                    <button class="add-button">添加继承分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="rate">
+                <h3>结算倍率</h3>
+                <div class="button-group">
+                    <button class="add-button">添加结算倍率</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">1.0</div>
+            </div>
+        </div>
+    </div>
+    <div class="final-container">
+        <div class="final">
+            <h3>最终分数</h3>
+            <div class="score-breakdown">
+                <div>结算分数：<span class="game-score">0</span></div>
+                <div>额外分数：<span class="extra-score">0</span></div>
+                <div>最终分数：<span class="final-score">0</span></div>
+            </div>
+            <div class="button-group">
+                <button class="add-button">计算最终分数</button>
+                <button class="reset-button">一键重置</button>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

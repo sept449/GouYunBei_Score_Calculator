@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let extendScore = 0;     // 继承分数
     let finalScore = 0;      // 最终分数
 
-    // 获取所有输入框和按钮
+    // 所有输入框和按钮
     const gameInput = document.getElementById('scoreInput');
     const objectInput = document.querySelector('.object input');
     const emergencyInputs = document.querySelectorAll('.emergency input');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const moneyInput = document.querySelector('.money input');
     const extendInput = document.querySelector('.extend input');
 
-    // 获取所有按钮
+    // 所有按钮
     const addGameScoreBtn = document.getElementById('addScore');
     const addObjectScoreBtn = document.querySelector('.object .add-button');
     const addEmergencyScoreBtn = document.querySelector('.emergency .add-button');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addExtendScoreBtn = document.querySelector('.extend .add-button');
     const showFinalScoreBtn = document.querySelector('.final .add-button');
 
-    // 获取所有显示元素
+    // 所有显示元素
     const gameScoreDisplay = document.querySelector('.jiesuan .score-display');
     const objectScoreDisplay = document.querySelector('.object .score-display');
     const emergencyScoreDisplay = document.querySelector('.emergency .score-display');
@@ -38,6 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalScoreDisplay = document.querySelector('.final .final-score');
     const extraScoreDisplay = document.querySelector('.final .extra-score');
     const baseScoreDisplay = document.querySelector('.final .game-score');
+
+    // 所有重置按钮
+    const resetGameBtn = document.querySelector('.jiesuan .reset-button');
+    const resetObjectBtn = document.querySelector('.object .reset-button');
+    const resetEmergencyBtn = document.querySelector('.emergency .reset-button');
+    const resetTempBtn = document.querySelector('.temp .reset-button');
+    const resetMoneyBtn = document.querySelector('.money .reset-button');
+    const resetExtendBtn = document.querySelector('.extend .reset-button');
+    const resetRateBtn = document.querySelector('.rate .reset-button');
+    const resetAllBtn = document.querySelector('.final .reset-button');
 
     // 更新显示函数
     function updateAllDisplays() {
@@ -149,6 +159,86 @@ document.addEventListener('DOMContentLoaded', () => {
         // 最终分数 = 基础分数 * 倍率
         finalScore = Math.floor(baseScore * finalRate);
     }
+
+    // 重置结算分数
+    resetGameBtn.addEventListener('click', () => {
+        gameScore = 0;
+        gameInput.value = '';
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置藏品分数
+    resetObjectBtn.addEventListener('click', () => {
+        objectScore = 0;
+        objectInput.value = '';
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置紧急作战分数
+    resetEmergencyBtn.addEventListener('click', () => {
+        emergencyScore = 0;
+        emergencyInputs.forEach(input => input.value = '');
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置临时招募分数
+    resetTempBtn.addEventListener('click', () => {
+        tempScore = 0;
+        tempInputs.forEach(input => input.value = '');
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置存钱分数
+    resetMoneyBtn.addEventListener('click', () => {
+        moneyScore = 0;
+        moneyInput.value = '';
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置继承分数
+    resetExtendBtn.addEventListener('click', () => {
+        extendScore = 0;
+        extendInput.value = '';
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置倍率
+    resetRateBtn.addEventListener('click', () => {
+        finalRate = 1.0;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置所有
+    resetAllBtn.addEventListener('click', () => {
+        // 重置所有变量
+        gameScore = 0;
+        objectScore = 0;
+        emergencyScore = 0;
+        tempScore = 0;
+        finalRate = 1.0;
+        moneyScore = 0;
+        extendScore = 0;
+        finalScore = 0;
+
+        // 清空所有输入框
+        gameInput.value = '';
+        objectInput.value = '';
+        emergencyInputs.forEach(input => input.value = '');
+        tempInputs.forEach(input => input.value = '');
+        moneyInput.value = '';
+        extendInput.value = '';
+
+        // 更新显示
+        calculateFinalScore();
+        updateAllDisplays();
+    });
 
     // 初始化显示
     updateAllDisplays();

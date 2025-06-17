@@ -9,6 +9,31 @@ body {
     background-color: #f0f0f0;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.final-container {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
 h3 {
     color: #333;
     margin-bottom: 15px;
@@ -19,9 +44,7 @@ h3 {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
     width: 100%;
-    max-width: 600px;
 }
 
 input[type="number"] {
@@ -81,4 +104,41 @@ input[type="number"] {
 
 .final .add-button:hover {
     background-color: #1976D2;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-row {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+.input-row input {
+    margin-left: 10px;
+    width: 150px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reset-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.reset-button:hover {
+    background-color: #d32f2f;
 } 
