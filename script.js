@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let moneyScore = 0;      // 存钱分数
     let extendScore = 0;     // 继承分数
     let secretScore = 0;     // 隐藏分数
+    let endingScore = 0;     // 结局分数
     let finalScore = 0;      // 最终分数
 
     // 所有输入框和按钮
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const moneyInput = document.querySelector('.money input');
     const extendInput = document.querySelector('.extend input');
     const secretInput = document.querySelector('.secret input');
+    const noMissCheckbox = document.getElementById('noMissCheckbox');
 
     // 所有按钮
     const addGameScoreBtn = document.getElementById('addScore');
@@ -55,6 +57,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetRateBtn = document.querySelector('.rate .reset-button');
     const resetAllBtn = document.querySelector('.final .reset-button');
 
+    // 结局相关元素
+    const endingCompleteCheckboxes = document.querySelectorAll('.ending-complete');
+    const endingConfusedCheckboxes = document.querySelectorAll('.ending-confused');
+    const endingScrollCheckboxes = document.querySelectorAll('.ending-scroll');
+    const addEndingScoreBtn = document.querySelector('.ending .add-button');
+    const resetEndingBtn = document.querySelector('.ending .reset-button');
+    const endingScoreDisplay = document.querySelector('.ending .score-display');
+
+    // 设置2结局默认勾选且禁用
+    const ending2Complete = document.getElementById('ending2-complete');
+    ending2Complete.checked = true;
+    ending2Complete.disabled = true;
+    // 启用二结局的思维混乱和滚动先祖勾选框
+    const ending2Confused = document.getElementById('ending2-confused');
+    const ending2Scroll = document.getElementById('ending2-scroll');
+    ending2Confused.disabled = false;
+    ending2Scroll.disabled = false;
+
     // 更新显示函数
     function updateAllDisplays() {
         gameScoreDisplay.textContent = gameScore;
@@ -65,9 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyScoreDisplay.textContent = moneyScore;
         extendScoreDisplay.textContent = extendScore;
         secretScoreDisplay.textContent = secretScore;
+        endingScoreDisplay.textContent = endingScore;
         
         // 计算额外分数
-        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore;
+        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + endingScore;
         extraScoreDisplay.textContent = extraScore;
         baseScoreDisplay.textContent = gameScore;
         finalRateDisplay.textContent = finalRate;
@@ -166,6 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const amount = parseInt(secretInput.value);
         if (!isNaN(amount) && amount >= 0) {
             secretScore += amount * 50; // 每个50分
+            // 如果勾选了全局无漏，额外加100分
+            if (noMissCheckbox.checked) {
+                secretScore += 100;
+                noMissCheckbox.checked = false; // 重置勾选框
+            }
             secretInput.value = '';
             calculateFinalScore();
             updateAllDisplays();
@@ -175,10 +201,88 @@ document.addEventListener('DOMContentLoaded', () => {
     // 计算最终分数
     function calculateFinalScore() {
         // 基础分数 = 结算分数 + 额外分数
-        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore;
+        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + endingScore;
         // 最终分数 = 基础分数 * 倍率
         finalScore = Math.floor(baseScore * finalRate);
     }
+
+    // 结局勾选框状态管理
+    endingCompleteCheckboxes.forEach((checkbox, index) => {
+        checkbox.addEventListener('change', () => {
+            const confusedCheckbox = endingConfusedCheckboxes[index];
+            const scrollCheckbox = endingScrollCheckboxes[index];
+        
+            // 启用/禁用思维混乱和滚动先祖
+            confusedCheckbox.disabled = !checkbox.checked;
+            scrollCheckbox.disabled = !checkbox.checked;
+        
+            // 如果取消选中，同时取消思维混乱和滚动先祖
+            if (!checkbox.checked) {
+                confusedCheckbox.checked = false;
+                scrollCheckbox.checked = false;
+            }
+
+            // 三结局和四结局互斥
+            if (index === 1 && checkbox.checked) { // 三结局
+                endingCompleteCheckboxes[2].checked = false; // 取消四结局
+                endingConfusedCheckboxes[2].checked = false;
+                endingScrollCheckboxes[2].checked = false;
+                endingConfusedCheckboxes[2].disabled = true; // 禁用四结局的混乱框、滚动框
+                endingScrollCheckboxes[2].disabled = true;
+            } else if (index === 2 && checkbox.checked) { // 四结局
+                endingCompleteCheckboxes[1].checked = false; // 取消三结局
+                endingConfusedCheckboxes[1].checked = false;
+                endingScrollCheckboxes[1].checked = false;
+                endingConfusedCheckboxes[1].disabled = true; // 禁用三结局的混乱框、滚动框
+                endingScrollCheckboxes[1].disabled = true;
+            }
+        });
+    });
+
+    // 添加结局分数
+    addEndingScoreBtn.addEventListener('click', () => {
+        let total = 0;
+        const endingStates = Array.from(endingCompleteCheckboxes).map(checkbox => checkbox.checked);
+        console.log('结局状态:', endingStates);
+        
+        // 基础分数和特殊组合加分
+        if (endingStates[1] && endingStates[3]) { // 同时完成3、5结局
+            total += 250;
+            console.log('2+3+5结局: +250分');
+        } else if (endingStates[2] && endingStates[3]) { // 同时完成4、5结局
+            total += 500;
+            console.log('2+4+5结局: +500分');
+        } else if (endingStates[2]) { // 单4结局
+            total += 50;
+            console.log('2+4结局: +50分');
+        } else if (endingStates[3]) { // 单5结局
+            total += 100;
+            console.log('2+5结局: +100分');
+        }
+        
+        // 混乱加分
+        const confusedScores = [100, 50, 200, 400];
+        endingConfusedCheckboxes.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                total += confusedScores[index];
+                console.log(`结局${index + 2}混乱: +${confusedScores[index]}分`);
+            }
+        });
+        
+        // 滚动加分
+        const scrollScores = [200, 100, 400, 800];
+        endingScrollCheckboxes.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                total += scrollScores[index];
+                console.log(`结局${index + 2}滚动: +${scrollScores[index]}分`);
+            }
+        });
+
+        console.log('总分:', total);
+        endingScore += total;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
 
     // 重置结算分数
     resetGameBtn.addEventListener('click', () => {
@@ -232,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetSecretBtn.addEventListener('click', () => {
         secretScore = 0;
         secretInput.value = '';
+        noMissCheckbox.checked = false; // 重置勾选框
         calculateFinalScore();
         updateAllDisplays();
     });
@@ -239,6 +344,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // 重置倍率
     resetRateBtn.addEventListener('click', () => {
         finalRate = 1.0;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 重置结局分数
+    resetEndingBtn.addEventListener('click', () => {
+        endingScore = 0;
+        // 保持2结局勾选，并启用其混乱和滚动框
+        endingCompleteCheckboxes.forEach((checkbox, index) => {
+            if (index === 0) { // 2结局
+                checkbox.checked = true;
+                endingConfusedCheckboxes[index].disabled = false;
+                endingScrollCheckboxes[index].disabled = false;
+            } else { // 其他结局
+                checkbox.checked = false;
+                endingConfusedCheckboxes[index].disabled = true;
+                endingScrollCheckboxes[index].disabled = true;
+            }
+        });
+        // 重置所有混乱和滚动框的选中状态
+        endingConfusedCheckboxes.forEach(checkbox => checkbox.checked = false);
+        endingScrollCheckboxes.forEach(checkbox => checkbox.checked = false);
         calculateFinalScore();
         updateAllDisplays();
     });
@@ -254,9 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyScore = 0;
         extendScore = 0;
         secretScore = 0;
+        endingScore = 0;
         finalScore = 0;
 
-        // 清空所有输入框
+        // 清空所有输入框和勾选框
         gameInput.value = '';
         objectInput.value = '';
         emergencyInputs.forEach(input => input.value = '');
@@ -264,6 +392,10 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyInput.value = '';
         extendInput.value = '';
         secretInput.value = '';
+        noMissCheckbox.checked = false;
+        endingCompleteCheckboxes.forEach(checkbox => checkbox.checked = false);
+        endingConfusedCheckboxes.forEach(checkbox => checkbox.checked = false);
+        endingScrollCheckboxes.forEach(checkbox => checkbox.checked = false);
 
         // 更新显示
         calculateFinalScore();
