@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let extendScore = 0;     // 继承分数
     let secretScore = 0;     // 隐藏分数
     let endingScore = 0;     // 结局分数
+    let detachmentScore = 0; // 分队分数
     let finalScore = 0;      // 最终分数
 
     // 所有输入框和按钮
@@ -19,9 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const moneyInput = document.querySelector('.money input');
     const extendInput = document.querySelector('.extend input');
     const secretInput = document.querySelector('.secret input');
+    const detachmentInputs = Array.from(document.querySelectorAll('.detachment input[type="number"]'));
     const noMissCheckbox = document.getElementById('noMissCheckbox');
+    const defendSuccessCheckbox = document.getElementById('defendSuccessCheckbox');
 
-    // 所有按钮
+    // 所有添加按钮
     const addGameScoreBtn = document.getElementById('addScore');
     const addObjectScoreBtn = document.querySelector('.object .add-button');
     const addEmergencyScoreBtn = document.querySelector('.emergency .add-button');
@@ -30,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addMoneyScoreBtn = document.querySelector('.money .add-button');
     const addExtendScoreBtn = document.querySelector('.extend .add-button');
     const addSecretScoreBtn = document.querySelector('.secret .add-button');
+    const addDetachmentScoreBtn = document.querySelector('.detachment .add-button');
     const showFinalScoreBtn = document.querySelector('.final .add-button');
 
     // 所有显示元素
@@ -41,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const moneyScoreDisplay = document.querySelector('.money .score-display');
     const extendScoreDisplay = document.querySelector('.extend .score-display');
     const secretScoreDisplay = document.querySelector('.secret .score-display');
+    const detachmentScoreDisplay = document.querySelector('.detachment .score-display');
     const finalScoreDisplay = document.querySelector('.final .final-score');
     const extraScoreDisplay = document.querySelector('.final .extra-score');
     const baseScoreDisplay = document.querySelector('.final .game-score');
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetMoneyBtn = document.querySelector('.money .reset-button');
     const resetExtendBtn = document.querySelector('.extend .reset-button');
     const resetSecretBtn = document.querySelector('.secret .reset-button');
+    const resetDetachmentBtn = document.querySelector('.detachment .reset-button');
     const resetRateBtn = document.querySelector('.rate .reset-button');
     const resetAllBtn = document.querySelector('.final .reset-button');
 
@@ -91,10 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyScoreDisplay.textContent = moneyScore;
         extendScoreDisplay.textContent = extendScore;
         secretScoreDisplay.textContent = secretScore;
+        detachmentScoreDisplay.textContent = detachmentScore.toString();
         endingScoreDisplay.textContent = endingScore;
         
         // 计算额外分数
-        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + endingScore;
+        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
         extraScoreDisplay.textContent = extraScore;
         baseScoreDisplay.textContent = gameScore;
         finalRateDisplay.textContent = finalRate;
@@ -204,21 +211,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const amount = parseInt(secretInput.value);
         if (!isNaN(amount) && amount >= 0) {
             secretScore += amount * 50; // 每个50分
-            // 如果勾选了全局无漏，额外加100分
-            if (noMissCheckbox.checked) {
-                secretScore += 100;
-                noMissCheckbox.checked = false; // 重置勾选框
-            }
             secretInput.value = '';
-            calculateFinalScore();
-            updateAllDisplays();
         }
+        // 如果勾选了全局无漏，额外加100分
+        if (noMissCheckbox.checked) {
+            secretScore += 100;
+            noMissCheckbox.checked = false; // 重置勾选框
+        }
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    // 分队分数计算
+    addDetachmentScoreBtn.addEventListener('click', () => {
+        let total = 0;
+        const rates = [-150, -250]; // 重辅超2个，每个扣150分；其他分队超1个，每个扣250分
+        detachmentInputs.forEach((input, index) => {
+            const count = parseInt(input.value) || 0;
+            total += count * rates[index];
+            input.value = '';
+        });
+        // console.log('总扣分:', total);
+        detachmentScore += total;  // 累加而不是覆盖
+        // 如果勾选了重辅通关，额外加500分
+        if (defendSuccessCheckbox.checked) {
+            detachmentScore += 500;
+            defendSuccessCheckbox.checked = false; // 重置勾选框
+        }    
+        calculateFinalScore();
+        updateAllDisplays();
     });
 
     // 计算最终分数
     function calculateFinalScore() {
         // 基础分数 = 结算分数 + 额外分数
-        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + endingScore;
+        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
         // 最终分数 = 基础分数 * 倍率
         finalScore = Math.floor(baseScore * finalRate);
     }
@@ -358,6 +385,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllDisplays();
     });
 
+    // 重置分队分数
+    resetDetachmentBtn.addEventListener('click', () => {
+        detachmentScore = 0;
+        detachmentInputs.forEach(input => input.value = '');
+        defendSuccessCheckbox.checked = false;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
     // 重置倍率
     resetRateBtn.addEventListener('click', () => {
         difficultySelect.value = '1.0';
@@ -402,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyScore = 0;
         extendScore = 0;
         secretScore = 0;
+        detachmentScore = 0;
         endingScore = 0;
         finalScore = 0;
 
@@ -413,7 +450,9 @@ document.addEventListener('DOMContentLoaded', () => {
         moneyInput.value = '';
         extendInput.value = '';
         secretInput.value = '';
+        detachmentInputs.forEach(input => input.value = '');
         noMissCheckbox.checked = false;
+        defendSuccessCheckbox.checked = false;
         endingCompleteCheckboxes.forEach(checkbox => checkbox.checked = false);
         endingConfusedCheckboxes.forEach(checkbox => checkbox.checked = false);
         endingScrollCheckboxes.forEach(checkbox => checkbox.checked = false);

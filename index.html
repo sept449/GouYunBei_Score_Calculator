@@ -21,7 +21,7 @@
             <div class="object">
                 <h3>藏品分数</h3>
                 <div class="button-group">
-                    <input type="number" placeholder="请输入收藏品数量 (×5)" min="0" step="1">
+                    <input type="number" placeholder="请输入收藏品数量 (+5)" min="0" step="1">
                     <button class="add-button">添加藏品分数</button>
                     <button class="reset-button">重置</button>
                 </div>
@@ -30,12 +30,12 @@
             <div class="emergency">
                 <h3>紧急作战分数</h3>
                 <div class="input-group">
-                    <div class="input-row">一层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×10)</div>
-                    <div class="input-row">二层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×10)</div>
-                    <div class="input-row">三层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×15)</div>
-                    <div class="input-row">四层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×25)</div>
-                    <div class="input-row">五层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×40)</div>
-                    <div class="input-row">六层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(×50)</div>
+                    <div class="input-row">一层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+10)</div>
+                    <div class="input-row">二层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+10)</div>
+                    <div class="input-row">三层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+15)</div>
+                    <div class="input-row">四层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+25)</div>
+                    <div class="input-row">五层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+40)</div>
+                    <div class="input-row">六层：<input type="number" placeholder="请输入紧急作战数量" min="0" step="1">(+50)</div>
                 </div>
                 <div class="button-group">
                     <button class="add-button">添加紧急作战分数</button>
@@ -127,7 +127,7 @@
             <div class="money">
                 <h3>存钱分数</h3>
                 <div class="button-group">
-                    <input type="number" placeholder="请输入存钱数量 (×10)" min="0" step="1">
+                    <input type="number" placeholder="请输入存钱数量 (+10)" min="0" step="1">
                     <button class="add-button">添加存钱分数</button>
                     <button class="reset-button">重置</button>
                 </div>
@@ -136,25 +136,45 @@
             <div class="secret">
                 <h3>隐藏分数（鸭狗熊鼠）</h3>
                 <div class="button-group">
-                    <input type="number" placeholder="请输入隐藏数量 (×50)" min="0" step="1">
+                    <input type="number" placeholder="请输入隐藏数量 (+50)" min="0" step="1">
                     <button class="add-button">添加隐藏分数</button>
                     <button class="reset-button">重置</button>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="noMissCheckbox">
-                    <label for="noMissCheckbox">全局无漏（如仅需添加该项分数，请至少在输入框输入数字0，再按添加按钮）</label>
+                    <label for="noMissCheckbox">全局无漏 (+100)</label>
                 </div>
                 <div class="score-display">0</div>
             </div>
             <div class="temp">
                 <h3>临时招募分数</h3>
                 <div class="input-group">
-                    <div class="input-row">四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(×30)</div>
-                    <div class="input-row">五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(×30)</div>
-                    <div class="input-row">六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(×50)</div>
+                    <div class="input-row">四星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(+30)</div>
+                    <div class="input-row">五星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(+30)</div>
+                    <div class="input-row">六星：<input type="number" placeholder="请输入临时招募数量" min="0" step="1">(+50)</div>
                 </div>
                 <div class="button-group">
                     <button class="add-button">添加临时招募分数</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">0</div>
+            </div>
+            <div class="detachment">
+                <h3>分队加/减分</h3>
+                <div class="input-group">
+                    <div class="input-row">
+                        重辅：<input type="number" placeholder="请输入超限的非本家6星数量" min="0" step="1">(-150)
+                    </div>
+                    <div class="input-row">
+                        其他：<input type="number" placeholder="请输入超限的非本家6星数量" min="0" step="1">(-250)
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="defendSuccessCheckbox">
+                    <label for="defendSuccessCheckbox">重辅通关 (+500)</label>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">添加分队分数</button>
                     <button class="reset-button">重置</button>
                 </div>
                 <div class="score-display">0</div>
