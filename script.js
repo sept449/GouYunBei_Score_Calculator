@@ -244,10 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 计算最终分数
     function calculateFinalScore() {
-        // 基础分数 = 结算分数 + 额外分数
-        const baseScore = gameScore + objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
-        // 最终分数 = 基础分数 * 倍率
-        finalScore = Math.floor(baseScore * finalRate);
+        // 额外分数
+        const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
+        // 最终分数 = 结算分数 * 倍率 + 额外分数
+        finalScore = Math.floor(gameScore * finalRate) + extraScore;
     }
 
     // 结局勾选框状态管理
