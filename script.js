@@ -453,7 +453,20 @@ document.addEventListener('DOMContentLoaded', () => {
         detachmentInputs.forEach(input => input.value = '');
         noMissCheckbox.checked = false;
         defendSuccessCheckbox.checked = false;
-        endingCompleteCheckboxes.forEach(checkbox => checkbox.checked = false);
+
+        // 保持2结局勾选，并启用其混乱和滚动框
+        endingCompleteCheckboxes.forEach((checkbox, index) => {
+            if (index === 0) { // 2结局
+                checkbox.checked = true;
+                endingConfusedCheckboxes[index].disabled = false;
+                endingScrollCheckboxes[index].disabled = false;
+            } else { // 其他结局
+                checkbox.checked = false;
+                endingConfusedCheckboxes[index].disabled = true;
+                endingScrollCheckboxes[index].disabled = true;
+            }
+        });
+        // 重置所有混乱和滚动框的选中状态
         endingConfusedCheckboxes.forEach(checkbox => checkbox.checked = false);
         endingScrollCheckboxes.forEach(checkbox => checkbox.checked = false);
 
