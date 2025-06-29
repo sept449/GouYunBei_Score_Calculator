@@ -40,7 +40,7 @@ h3 {
     margin-bottom: 15px;
 }
 
-.jiesuan, .object, .emergency, .temp, .rate, .money, .extend, .final, .secret, .ending, .detachment {
+.jiesuan, .object, .emergency, .temp, .final-rate, .level-rate, .money, .extend, .final, .secret, .ending, .detachment {
     background-color: white;
     padding: 20px;
     border-radius: 10px;

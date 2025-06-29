@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let objectScore = 0;     // 藏品分数
     let emergencyScore = 0;  // 紧急分数
     let tempScore = 0;       // 临招分数
-    let finalRate = 1.0;     // 倍率分数
+    let finalRate = 1.0;     // 最终倍率
+    let levelRate = 1.0;     // 难度倍率
     let moneyScore = 0;      // 存钱分数
     let extendScore = 0;     // 继承分数
     let secretScore = 0;     // 隐藏分数
@@ -29,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const addObjectScoreBtn = document.querySelector('.object .add-button');
     const addEmergencyScoreBtn = document.querySelector('.emergency .add-button');
     const addTempScoreBtn = document.querySelector('.temp .add-button');
-    const addRateBtn = document.querySelector('.rate .add-button');
+    const addLevelRateBtn = document.querySelector('.level-rate .add-button');
+    const addFinalRateBtn = document.querySelector('.final-rate .add-button');
     const addMoneyScoreBtn = document.querySelector('.money .add-button');
     const addExtendScoreBtn = document.querySelector('.extend .add-button');
     const addSecretScoreBtn = document.querySelector('.secret .add-button');
@@ -41,15 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const objectScoreDisplay = document.querySelector('.object .score-display');
     const emergencyScoreDisplay = document.querySelector('.emergency .score-display');
     const tempScoreDisplay = document.querySelector('.temp .score-display');
-    const rateDisplay = document.querySelector('.rate .score-display');
+    const lRateDisplay = document.querySelector('.level-rate .score-display');
+    const fRateDisplay = document.querySelector('.final-rate .score-display');
     const moneyScoreDisplay = document.querySelector('.money .score-display');
     const extendScoreDisplay = document.querySelector('.extend .score-display');
     const secretScoreDisplay = document.querySelector('.secret .score-display');
     const detachmentScoreDisplay = document.querySelector('.detachment .score-display');
-    const finalScoreDisplay = document.querySelector('.final .final-score');
-    const extraScoreDisplay = document.querySelector('.final .extra-score');
     const baseScoreDisplay = document.querySelector('.final .game-score');
-    const finalRateDisplay = document.querySelector('.final .rate-display');
+    const extraScoreDisplay = document.querySelector('.final .extra-score');
+    const finalScoreDisplay = document.querySelector('.final .final-score');
+    const levelRateDisplay = document.querySelector('.final .level-rate-display');
+    const finalRateDisplay = document.querySelector('.final .final-rate-display');
 
     // 所有重置按钮
     const resetGameBtn = document.querySelector('.jiesuan .reset-button');
@@ -60,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetExtendBtn = document.querySelector('.extend .reset-button');
     const resetSecretBtn = document.querySelector('.secret .reset-button');
     const resetDetachmentBtn = document.querySelector('.detachment .reset-button');
-    const resetRateBtn = document.querySelector('.rate .reset-button');
+    const resetLevelRateBtn = document.querySelector('.level-rate .reset-button');
+    const resetFinalRateBtn = document.querySelector('.final-rate .reset-button');
     const resetAllBtn = document.querySelector('.final .reset-button');
 
     // 结局相关元素
@@ -93,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
         objectScoreDisplay.textContent = objectScore;
         emergencyScoreDisplay.textContent = emergencyScore;
         tempScoreDisplay.textContent = tempScore;
-        rateDisplay.textContent = finalRate;
+        lRateDisplay.textContent = levelRate;
+        fRateDisplay.textContent = finalRate;
         moneyScoreDisplay.textContent = moneyScore;
         extendScoreDisplay.textContent = extendScore;
         secretScoreDisplay.textContent = secretScore;
@@ -104,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
         extraScoreDisplay.textContent = extraScore;
         baseScoreDisplay.textContent = gameScore;
+        levelRateDisplay.textContent = levelRate;
         finalRateDisplay.textContent = finalRate;
         finalScoreDisplay.textContent = finalScore;
     }
@@ -161,10 +168,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 计算倍率
-    addRateBtn.addEventListener('click', () => {
+    addLevelRateBtn.addEventListener('click', () => {
         let rate = parseFloat(difficultySelect.value);
         console.log('基础倍率:', rate);
-
+        
+        levelRate = rate;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+    
+    addFinalRateBtn.addEventListener('click', () => {
+        let rate = 1.0;
         if (wishdaleCheckbox.checked) {
             rate *= 0.5;
             console.log('使用维什戴尔: ×0.5');
@@ -247,7 +261,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 额外分数
         const extraScore = objectScore + emergencyScore + tempScore + moneyScore + extendScore + secretScore + detachmentScore + endingScore;
         // 最终分数 = 结算分数 * 倍率 + 额外分数
-        finalScore = Math.floor(gameScore * finalRate) + extraScore;
+        finalScore = Math.floor((Math.floor(gameScore * levelRate) + extraScore) * finalRate);
+        //finalScore = Math.floor(finalScore * finalRate);
     }
 
     // 结局勾选框状态管理
@@ -395,8 +410,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 重置倍率
-    resetRateBtn.addEventListener('click', () => {
+    resetLevelRateBtn.addEventListener('click', () => {
         difficultySelect.value = '1.0';
+        levelRate = 1.0;
+        calculateFinalScore();
+        updateAllDisplays();
+    });
+
+    resetFinalRateBtn.addEventListener('click', () => {
         wishdaleCheckbox.checked = false;
         singleEndingCheckbox.checked = false;
         ending1Checkbox.checked = false;
@@ -434,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
         objectScore = 0;
         emergencyScore = 0;
         tempScore = 0;
+        levelRate = 1.0;
         finalRate = 1.0;
         moneyScore = 0;
         extendScore = 0;

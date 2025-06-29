@@ -113,6 +113,28 @@
                 </div>
                 <div class="score-display">0</div>
             </div>
+            <div class="level-rate">
+                <h3>难度倍率</h3>
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="difficulty">难度：</label>
+                        <select id="difficulty">
+                            <option value="1.0">N9 (×1.0)</option>
+                            <option value="1.2">N10 (×1.2)</option>
+                            <option value="1.4">N11 (×1.4)</option>
+                            <option value="1.5">N12 (×1.5)</option>
+                            <option value="2.0">N13 (×2.0)</option>
+                            <option value="3.0">N14 (×3.0)</option>
+                            <option value="4.0">N15 (×4.0)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="add-button">计算倍率</button>
+                    <button class="reset-button">重置</button>
+                </div>
+                <div class="score-display">1.0</div>
+            </div>
         </div>
         <div class="column-right">
             <div class="extend">
@@ -179,21 +201,9 @@
                 </div>
                 <div class="score-display">0</div>
             </div>
-            <div class="rate">
+            <div class="final-rate">
                 <h3>结算倍率</h3>
                 <div class="input-group">
-                    <div class="input-row">
-                        <label for="difficulty">难度：</label>
-                        <select id="difficulty">
-                            <option value="1.0">N9 (×1.0)</option>
-                            <option value="1.2">N10 (×1.2)</option>
-                            <option value="1.4">N11 (×1.4)</option>
-                            <option value="1.5">N12 (×1.5)</option>
-                            <option value="2.0">N13 (×2.0)</option>
-                            <option value="3.0">N14 (×3.0)</option>
-                            <option value="4.0">N15 (×4.0)</option>
-                        </select>
-                    </div>
                     <div class="checkbox-group">
                         <input type="checkbox" id="wishdale">
                         <label for="wishdale">使用维什戴尔 (×0.5)</label>
@@ -217,11 +227,12 @@
     </div>
     <div class="final-container">
         <div class="final">
-            <h3>最终分数（= 结算分数 × 结算倍率 + 额外分数）</h3>
+            <h3>最终分数</h3><h4> = (结算分数 × 难度倍率 + 额外分数) × 结算倍率</h4>
             <div class="score-breakdown">
                 <div>结算分数：<span class="game-score">0</span></div>
                 <div>额外分数：<span class="extra-score">0</span></div>
-                <div>结算倍率：<span class="rate-display">1.0</span></div>
+                <div>难度倍率：<span class="level-rate-display">1.0</span></div>
+                <div>结算倍率：<span class="final-rate-display">1.0</span></div>
                 <div>最终分数：<span class="final-score">0</span></div>
             </div>
             <div class="button-group">
